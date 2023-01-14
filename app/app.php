@@ -1,9 +1,8 @@
 <?php
-//start session before everything else executes
-session_start();
+
 
 //includings
-include('db_init.php');
+// include('db_init.php');
 include 'class/User.php';
 
 

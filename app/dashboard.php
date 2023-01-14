@@ -1,13 +1,7 @@
 <?php
-include 'class/User.php';
 
-$user = new User();
+// include 'loginHelper.php';
 
-if($user->login($_POST['email'],$_POST['password'])){
+
 ?>
 <h1>Este es el dashboard</h1>
-<?php
-}else{
-header("Location: index.html");
-}
-?>
