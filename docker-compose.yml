@@ -1,0 +1,41 @@
+version: '3'
+services: 
+    web:
+        image: nginx:latest
+        ports:
+            - "80:80"
+        volumes: 
+            - ./nginx.conf:/etc/nginx/conf.d/nginx.conf
+            - ./app:/app
+    php:
+        build:
+            context: .
+            dockerfile: PHP.Dockerfile
+        volumes: 
+            - ./app:/app
+    mysql: 
+        build:
+            context: .
+            dockerfile: MARIADB.Dockerfile
+        environment:
+            MYSQL_ROOT_PASSWORD: 'secret'
+            MYSQL_USER: 'nada'
+            MYSQL_PASSWORD: 'secret'
+            MYSQL_DATABASE: 'social'
+        volumes: 
+            - mysqldata:/var/lib/mysql
+        ports: 
+            - 7000:7000
+    phpmyadmin:
+        image: phpmyadmin/phpmyadmin
+        links:
+            - mysql
+        environment:
+            PMA_HOST: mysql
+            PMA_PORT: 7000
+            PMA_ARBITRARY: 1
+        restart: always
+        ports:
+            - 8081:80
+volumes:
+    mysqldata: {}
