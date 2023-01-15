@@ -1,42 +1,16 @@
 <?php
+session_start();
 
-class UserModel
-{
+include 'Model.php';
 
+class UserModel extends Model
+{   
 
+    // public function __construct()
+    // {
+    //     parent::__construct();
+    // }
 
-    /**
-     * Configuration for database connection
-     *
-     */
-    private $pdo;
-    private $host       = "mysql";
-    private $username   = "root";
-    private $password   = "secret";
-    private $dbname     = "social";
-    // private $dsn        = "mysql:host=$host;dbname=$dbname";
-    private $options    = array(
-        PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION
-    );
-
-    /**
-     * Open a connection via PDO to create a
-     * new database and table with structure.
-     *
-     */
-    public function __construct()
-    {
-        try {
-            $this->pdo = new PDO("mysql:host=$this->host;dbname=$this->dbname", $this->username, $this->password, $this->options);
-            // $sql = file_get_contents("data/init.sql");
-            // $connection->exec($sql);
-
-            // echo "Database and table users created successfully.";
-            // return $this->pdo;
-        } catch (PDOException $error) {
-            echo  $error->getMessage();
-        }
-    }
 
     //METHODS
 
@@ -110,7 +84,6 @@ class UserModel
         // global $connection;
         $email = trim($email);
         $pass = trim($pass);
-
         /* Look for the account in the db. Note: the account must be enabled (account_enabled = 1) */
         $query = 'SELECT * FROM users WHERE (email = :email) AND (user_enabled = 1)';
 
@@ -127,6 +100,7 @@ class UserModel
         }
 
         $row = $res->fetch(PDO::FETCH_ASSOC);
+        // var_dump($row);
 
         if (is_array($row)) {
             if (password_verify($pass, $row['pass'])) {
@@ -134,7 +108,6 @@ class UserModel
 
                 /* Register the current Sessions on the database */
                 $this->registerLoginSession(intval($row['id'], 10),$email);
-
                 /* Finally, Return TRUE */
                 return TRUE;
             }
@@ -147,7 +120,8 @@ class UserModel
     public function registerLoginSession($idUser,$email)
     {
         // global $connection;
-
+// echo session_status();
+// echo PHP_SESSION_ACTIVE;
         /* Check that a Session has been started */
         if (session_status() == PHP_SESSION_ACTIVE) {
 
@@ -155,7 +129,7 @@ class UserModel
 			- insert a new row with the session id, if it doesn't exist, or...
 			- update the row having the session id, if it does exist.*/
             $query = 'REPLACE INTO user_sessions (session_id,user_id,login_time) VALUES (:session_id, :user_id, NOW())';
-            $values = array(':sessionid' => session_id(), ':user_id' => $idUser);
+            $values = array(':session_id' => session_id(), ':user_id' => $idUser);
 
             try {
                 $res = $this->pdo->prepare($query);

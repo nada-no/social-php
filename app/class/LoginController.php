@@ -1,11 +1,12 @@
 <?php
-include 'UserModel.php';
+// include 'UserModel.php';
+include_once 'Controller.php';
 
-class LoginController
+class LoginController extends Controller
 {
 
     //ATTRIBUTES
-    private $UserModel;
+    // private $UserModel;
     private $email;
     private $password;
     private $auth;
@@ -13,10 +14,11 @@ class LoginController
     //CONSTRUCTOR
     public function __construct($_email,$_password)
     {
+        parent::__construct();
         $this->password = $_password;
         $this->email = $_email;
         $this->auth = false;
-        $this->UserModel = new UserModel();
+        // $this->UserModel = new UserModel();
     }
 
     //DESTRUCTOR
@@ -25,6 +27,7 @@ class LoginController
     }
 
     public function loginUser(){
+    //    header("Location: register.php");
         $registerSucess = $this->UserModel->login($this->email,$this->password);
         if($registerSucess){
             header("Location: dashboard.php");

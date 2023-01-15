@@ -1,5 +1,8 @@
 <?php
-include 'registerHelper.php';
+//start session before everything else executes
+// session_start(); //working in the model ;)
+include_once 'registerHelper.php';
+
 
 ?>
 
@@ -7,6 +10,15 @@ include 'registerHelper.php';
 
   <div>
     <h1>Log in</h1>
+    <?php
+    if (isset($_GET['error'])) {
+      if ($_GET['error'] == 'bad_login') {
+    ?> <p>Incorrect credentials!</p>
+    <?php
+      }
+    }
+    ?>
+
     <form method="POST" action="dashboard.php">
       <label>Email</label>
       <input type="text" name="email">

@@ -1,17 +1,19 @@
 <?php 
-include 'UserModel.php';
+// include 'UserModel.php';
+include_once 'Controller.php';
 
-class RegisterController {
+class RegisterController extends Controller{
 
-    private $UserModel;
+    // private $UserModel;
     private $email;
     private $password;
 
     public function __construct($__email,$__password)
     {
+        parent::__construct();
         $this->email=$__email;
         $this->password = $__password;
-        $this->UserModel = new UserModel();
+        // $this->UserModel = new UserModel();
     }
 
 

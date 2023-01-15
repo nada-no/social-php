@@ -1,7 +1,8 @@
-# Library of non read books
+# Social network PHP
 
-A reading management app to save info about your future reads, the books you already read and more.
-Includes an import feature to parse big amounts of data in a .txt file with title, author, and read state (0 unread, 1 read) divided by "-".
+A social network created in PHP for practicing purposes.
+
+Session check to access dashboard not done :(
 
 ## Set up
 ``docker-compose up`` in the .yml folder.
